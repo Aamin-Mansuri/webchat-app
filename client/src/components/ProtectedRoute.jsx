@@ -18,7 +18,6 @@ const ProtectedRoute = () => {
         return <Navigate to="/login" replace />;
     }
 
-    // 3. If user exists, show the child pages (Home/Profile)
     return <Outlet />;
 };
 

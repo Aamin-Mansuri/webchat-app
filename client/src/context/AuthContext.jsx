@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     // 1. Initial Authentication Check
-    useEffect(() => {
+  useEffect(() => {
     const checkAuth = async () => {
         try {
             const { data } = await API.get('/users/me');
@@ -17,10 +17,8 @@ export const AuthProvider = ({ children }) => {
                 setUser(data.user);
             }
         } catch (err) {
-            console.log("Not logged in (Expected 401)");
             setUser(null);
         } finally {
-            // IF THIS DOESN'T RUN, THE SCREEN STAYS BLANK
             setLoading(false); 
         }
     };
