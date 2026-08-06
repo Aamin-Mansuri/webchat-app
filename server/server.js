@@ -17,19 +17,15 @@ const server = http.createServer(app);
 
 connectDB();
 
-// Required when deployed behind a proxy/load balancer (Render, Railway, Heroku, etc.)
-// so that secure cookies and req.ip work correctly.
 app.set('trust proxy', 1);
 
-// Support one or many allowed origins via a comma-separated env var, e.g.
-// CLIENT_URL=https://myapp.vercel.app,https://www.myapp.com
 const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
     .split(',')
     .map((url) => url.trim());
 
 const corsOptions = {
     origin: (origin, callback) => {
-        // allow requests with no origin (curl, mobile apps, server-to-server, health checks)
+        
         if (!origin || allowedOrigins.includes(origin)) {
             return callback(null, true);
         }
@@ -67,7 +63,7 @@ app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/chats', chatRoutes);
 app.use('/api/v1/messages', messageRoutes);
 
-// Simple health check endpoint - most hosts (Render/Railway) ping this
+
 app.get('/api/health', (req, res) => {
     res.status(200).json({ success: true, status: 'ok' });
 });
@@ -80,7 +76,6 @@ server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-// Avoid silent crashes in production going unnoticed
 process.on('unhandledRejection', (err) => {
     console.error(`Unhandled Rejection: ${err.message}`);
 });
